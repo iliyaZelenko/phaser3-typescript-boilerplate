@@ -1,25 +1,25 @@
-import { Apple } from '~/objects/apple'
-import { Snake } from '~/objects/snake'
-import { CONST } from '~/const/const'
+import AppleBonus from '~/objects/bonus/AppleBonus'
+import Snake from '~/objects/snake'
 import { ceilsXCount, ceilsYCount, ceil, gameWidth, gameHeight, dephs } from '~/config'
+import Overlay from '~/overlay/Overlay'
+import Timer from '~/overlay/Timer'
+import LocalStorage from '~/storage/LocalStorage'
+import AbstractStorage from '~/storage/AbstractStorage'
 
-export class GameScene extends Phaser.Scene {
+// TODO генерация препядствий
+export default class GameScene extends Phaser.Scene {
   // TODO on resize менять
   public readonly snakeStartX = this.getCeilXPos(ceilsXCount / 2)
   public readonly snakeStartY = this.getCeilYPos(ceilsYCount / 2)
-  public readonly gameWidth = gameWidth // this.sys.canvas.height
-  public readonly gameHeight = gameHeight // this.sys.canvas.width
 
-  // private worldIntervalFrequency = 60 // 30
-  // private worldInterval = null
+  public snake!: Snake
+  public overlay!: Overlay
+  public timer!: Timer
+  public storage!: AbstractStorage
+
   private worldIterations = 0
+  // TODO хранить в массиве сами бонусы, потом проходится по ним для получения позиций
   private bonusesPositions: any[] = []
-  // private bonusesPositionsSprites: Phaser.GameObjects.Sprite[] = []
-
-  // objects
-  private snake!: Snake
-  // private apple: Apple
-  // private gameBorder: Phaser.GameObjects.Graphics[] = []
 
   // texts
   private fpsText!: Phaser.GameObjects.BitmapText
@@ -29,92 +29,34 @@ export class GameScene extends Phaser.Scene {
     super({
       key: 'GameScene'
     })
-
-    // this.snake = new Snake(this)
-    // this.apple = new Apple(this, {
-    //   xPos: this.rndXPos(),
-    //   yPos: this.rndYPos(),
-    //   fSize: this.ceil
-    // })
   }
 
+  // TODO походу из init перенести в create (init каждый раз при появлении сцены) Хотя create тоже вроде 2 раза
   public init (): void {
     this.snake = new Snake(this)
+    this.overlay = new Overlay(this)
+    this.timer = new Timer(() => {
+      this.overlay.updateTimer()
+    })
+    this.storage = new LocalStorage()
 
     // input
     this.cursors = this.input.keyboard.createCursorKeys()
 
-    // text
-    // this.scoreText =
-    this.add.bitmapText(
-      this.gameWidth / 2,
-      1,
-      'main-font',
-      CONST.SCORE.toString(),
-      8
-    )
-
-    this.fpsText = this.add.bitmapText(
-      2,
-      2,
-      'main-font',
-      this.getFPS(),
-      8
-    )
-    this.fpsText.setDepth(dephs.text)
-
-    this.input.keyboard.on('keydown', ({ key }) => {
-      this.snake.setDir(
-        this.getDirByInput(key)
-      )
-    })
-    this.events.on('swipe', (dir) => {
-      this.snake.setDir(dir)
-    })
+    this.addFPSText()
+    this.addEventsListeners()
   }
 
   public create (): void {
-    const sprite = this.add.tileSprite(0, 0, this.gameWidth * 2, this.gameHeight * 2, 'background')
+    const sprite = this.add.tileSprite(0, 0, gameWidth * 2, gameHeight * 2, 'background')
 
     sprite.setDepth(dephs.background)
-
-    // objects
-    // let i = 0
-    // for (let x = 0; x < this.ceilsXCount; x++) {
-    //   for (let y = 0; y < this.ceilsYCount; y++) {
-    //     if (
-    //       y === 0 ||
-    //       y === this.gameHeight / this.ceil - 1 ||
-    //       x === 0 ||
-    //       x === this.gameWidth / this.ceil - 1
-    //     ) {
-    //       this.gameBorder[i] = this.add
-    //         .graphics({
-    //           x: -this.ceil + x * this.ceil,
-    //           y: -this.ceil + y * this.ceil,
-    //           fillStyle: { color: 0x61e85b, alpha: 0.3 }
-    //         })
-    //         .fillRect(
-    //           this.ceil,
-    //           this.ceil,
-    //           this.ceil,
-    //           this.ceil
-    //         )
-    //       i++
-    //     }
-    //   }
-    // }
   }
 
-  // TODO addBonus камера
-  // плавное движение
-  // столкновения
-  // генерация препядствий
-  // как ест яблоко
-
-  // time - прошедшее время в милисекундах (пауза не влияет!!! TODO TODO)
+  // time - elapsed time in milliseconds (pause does not affect!)
   public update (time): void {
-    const snakeMoveIterationsRange = 25
+    // TODO с уровнем сложности (наверное зависит от таймера) значения меняются
+    const snakeMoveIterationsRange = 10
     const bonusIterationsRange = 50
 
     this.worldIterations += 1
@@ -129,17 +71,10 @@ export class GameScene extends Phaser.Scene {
       this.checkCollision()
     }
 
-    // if (time % 1000 === 0) {
-    const el = document.querySelector('#overlay__time')
-    if (el) {
-      el.textContent = Math.round(time / 1000).toString()
-    }
-
     this.fpsText.setText(this.getFPS())
-    // }
 
     if (this.snake.isDead()) {
-      this.scene.start('MainMenuScene')
+      this.onDead()
     }
   }
 
@@ -241,7 +176,7 @@ export class GameScene extends Phaser.Scene {
   private addBonus () {
     const ceilPos = this.getRandomCeil()
 
-    const apple = new Apple(this, ceilPos)
+    const apple = new AppleBonus(this, ceilPos)
 
     this.bonusesPositions.push({ ...ceilPos, bonus: apple })
   }
@@ -249,10 +184,6 @@ export class GameScene extends Phaser.Scene {
   private checkCollision (): void {
     this.checkTakeBonus()
     this.checkTaran()
-  }
-
-  private getFPS () {
-    return 'FPS: ' + window.game.loop.actualFps.toFixed(0).toString()
   }
 
   private getRandomInt (min: number, max: number): number {
@@ -263,5 +194,49 @@ export class GameScene extends Phaser.Scene {
     // return rand
 
     return Phaser.Math.RND.between(min, max)
+  }
+
+  private addEventsListeners () {
+    this.input.keyboard.on('keydown', ({ key }) => {
+      this.snake.setDir(
+        this.getDirByInput(key)
+      )
+    })
+    this.events.on('pause', () => {
+      this.timer.pause()
+    })
+    this.events.on('resume', () => {
+      this.timer.resume()
+    })
+    this.events.on('swipe', (dir) => {
+      this.snake.setDir(dir)
+    })
+  }
+
+  private onDead () {
+    const score = this.overlay.getApplesCounter()
+    const maxScore = this.storage.get('max-score')
+
+    if (score > maxScore || maxScore === undefined) {
+      this.storage.set('max-score', score)
+    }
+
+    this.scene.start('MainMenuScene')
+  }
+
+  private getFPS () {
+    return 'FPS: ' + window.game.loop.actualFps.toFixed(0).toString()
+  }
+
+  private addFPSText () {
+    this.fpsText = this.add.bitmapText(
+      2,
+      2,
+      'main-font',
+      this.getFPS(),
+      8
+    )
+    .setDepth(dephs.text)
+    .setVisible(false) // change if necessary
   }
 }

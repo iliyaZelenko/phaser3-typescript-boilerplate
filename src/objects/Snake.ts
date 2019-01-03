@@ -1,7 +1,8 @@
 import { snakeSize, ceilsXCount, ceilsYCount } from '~/config'
-import { GameScene } from '~/scenes/gameScene'
+import GameScene from '~/scenes/GameScene'
+import AbstractBonus from '~/objects/bonus/AbstractBonus'
 
-export class Snake {
+export default class Snake {
   // TODO getters, types
   public snakeHeadX: number
   public snakeHeadY: number
@@ -127,11 +128,10 @@ export class Snake {
     head.y = this.snakeHeadY = y
   }
 
-  // TODO указать в типе абстрактный бонус
-  public onTakenBonus (bonus) {
+  public onTakenBonus (bonus: AbstractBonus) {
     // this.growSnake()
 
-    const posIndex = this.getSnakeLength() - 1
+    const posIndex = this.getSnakeLength() - 2 // "- 1" — head
     const { x, y } = this.bodyPartsPositions[posIndex]
     const sprite = this.addBodyBonusSprite(x, y)
 
@@ -161,6 +161,14 @@ export class Snake {
     this.updateBodyPartsSpritesFrames(0)
     // and subsequent element
     this.updateBodyPartsSpritesFrames(1)
+
+    // as a new element is added to the beginning of the array (end of the tail),
+    // it is necessary to shift the elements by one position so that there is no correspondence
+    this.bodyPartsBonuses = this.bodyPartsBonuses.map(k => ({ ...k, posIndex: ++k.posIndex }))
+  }
+
+  public getSnakeLength () {
+    return this.bodyPartsPositions.length
   }
 
   private updateBodyPartsBonuses () {
@@ -180,19 +188,17 @@ export class Snake {
             targets: sprite,
             x,
             y,
-            duration: 200
+            duration: 100
           })
         // sprite.x = x
         // sprite.y = y
       } else {
         sprite.destroy()
         this.growSnake()
-
-        // TODO increment this.bodyPartsBonuses
       }
 
       return { ...bonus, posIndex: i }
-    }).filter(({ posIndex }) => posIndex >= 0) // filter 0 (zero) items
+    }).filter(({ posIndex }) => posIndex >= 0) // filter >= 0 items (array indexes)
   }
 
   private updateBodyPartsPositions () {
@@ -201,15 +207,6 @@ export class Snake {
 
       sprite.x = pos.x
       sprite.y = pos.y
-
-      // animated movement (bad idea)
-      // this.scene.add
-      //   .tween({
-      //     targets: sprite,
-      //     x: pos.x,
-      //     y: pos.y,
-      //     duration: 200
-      //   })
     })
   }
 
@@ -370,15 +367,11 @@ export class Snake {
   }
 
   private addBodyBonusSprite (x, y) {
-    const sprite = this.scene.add.sprite(x, y, 'snake', 15)
+    const sprite = this.scene.add.sprite(x, y, 'snake', 16) // 15
 
     sprite.setDepth(3)
     sprite.setDisplaySize(this.size / 2, this.size / 2)
 
     return sprite
-  }
-
-  private getSnakeLength () {
-    return this.bodyPartsPositions.length
   }
 }

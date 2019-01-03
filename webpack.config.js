@@ -12,7 +12,7 @@ const srcPath = join(__dirname, 'src')
 const distPath = resolve(__dirname, 'dist')
 
 module.exports = {
-  entry: join(srcPath, 'game.ts'),
+  entry: join(srcPath, 'index.ts'),
   output: {
     filename: '[name].bundle.js',
     path: distPath
@@ -20,7 +20,7 @@ module.exports = {
   module: {
     rules: [
       { test: /\.ts$/, loader: 'ts-loader', exclude: '/node_modules/' },
-      { test: /phaser\.js$/, loader: 'expose-loader?Phaser' },
+      // { test: /phaser\.js$/, loader: 'expose-loader?Phaser' },
       {
         test: /\.sass$/,
         use: [

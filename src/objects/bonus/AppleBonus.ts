@@ -1,15 +1,15 @@
 import { ceil, dephs } from '~/config'
-import { GameScene } from '~/scenes/gameScene'
+import AbstractBonus from '~/objects/bonus/AbstractBonus'
 
 // extends Phaser.GameObjects.Graphics
-export class Apple {
-  private readonly scene: GameScene
+export default class AppleBonus extends AbstractBonus {
+  // private readonly scene: GameScene
   private readonly x: number
   private readonly y: number
   private readonly sprite: Phaser.GameObjects.Sprite
 
   constructor (scene, { x, y }) {
-    this.scene = scene
+    super(scene)
 
     this.x = x
     this.y = y
@@ -25,8 +25,9 @@ export class Apple {
     return this.sprite
   }
 
-  // TODO возможно сделать через паттерн события
   public onCollisionWithSnake () {
+    super.onCollisionWithSnake()
+
     const sprite = this.getSprite()
 
     sprite.destroy()
