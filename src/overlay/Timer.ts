@@ -1,7 +1,7 @@
 export default class Timer {
   private interval!: number
   private callImminentlyTimeout!: number
-  private seconds: number = 59
+  private seconds: number = 0
   private dateLastCall?: Date
   private dateStart!: Date
   private datePause!: Date
@@ -22,7 +22,7 @@ export default class Timer {
 
   public resume () {
     const dateLastCall = this.dateLastCall === undefined ? +this.dateStart : +this.dateLastCall
-    // get ms diff TODO datePause very rarely > 1000
+    // get ms diff TODO "this.datePause" very rarely > 1000
     const timeout = this.everyMs - (+this.datePause - dateLastCall)
 
     this.start(timeout)
@@ -36,6 +36,10 @@ export default class Timer {
 
   public getFormated () {
     return `0${this.seconds / 60 ^ 0}`.slice(-2) + ':' + ('0' + this.seconds % 60).slice(-2)
+  }
+
+  public getSeconds () {
+    return this.seconds
   }
 
   private start (callImminentlyAfterMs: number | null = null) {

@@ -1,5 +1,5 @@
 <p align="center">
-  <img width=100% src="https://github.com/digitsensitive/phaser3-typescript/blob/master/assets/github/phaser3-typescript.png">
+  <img width=100% src="https://github.com/iliyaZelenko/phaser3-typescript/blob/master/assets/github/phaser3-typescript.png">
   Phaser 3 Boilerplate Starter Project written in TypeScript.
 </p>
 
@@ -57,12 +57,12 @@ In this project you have Snake Game example it shows how you can use the Type Sc
 
 ## Cheat Sheets
 
-- [Phaser.Game](https://github.com/digitsensitive/phaser3-typescript/blob/master/cheatsheets/game-config.md)
-- [Phaser.Scene](https://github.com/digitsensitive/phaser3-typescript/blob/master/cheatsheets/scene-config.md)
-- [Phaser.GameObject.Image](https://github.com/digitsensitive/phaser3-typescript/blob/master/cheatsheets/gameobjects/image.md)
-- [Phaser.GameObject.Sprite](https://github.com/digitsensitive/phaser3-typescript/blob/master/cheatsheets/gameobjects/sprite.md)
-- [Phaser.GameObject.Group](https://github.com/digitsensitive/phaser3-typescript/blob/master/cheatsheets/gameobjects/group.md)
-- [Phaser.GameObject.Mesh](https://github.com/digitsensitive/phaser3-typescript/blob/master/cheatsheets/gameobjects/mesh.md)
+- [Phaser.Game](https://github.com/iliyaZelenko/phaser3-typescript/blob/master/cheatsheets/game-config.md)
+- [Phaser.Scene](https://github.com/iliyaZelenko/phaser3-typescript/blob/master/cheatsheets/scene-config.md)
+- [Phaser.GameObject.Image](https://github.com/iliyaZelenko/phaser3-typescript/blob/master/cheatsheets/gameobjects/image.md)
+- [Phaser.GameObject.Sprite](https://github.com/iliyaZelenko/phaser3-typescript/blob/master/cheatsheets/gameobjects/sprite.md)
+- [Phaser.GameObject.Group](https://github.com/iliyaZelenko/phaser3-typescript/blob/master/cheatsheets/gameobjects/group.md)
+- [Phaser.GameObject.Mesh](https://github.com/iliyaZelenko/phaser3-typescript/blob/master/cheatsheets/gameobjects/mesh.md)
 
 ## External Resources
 

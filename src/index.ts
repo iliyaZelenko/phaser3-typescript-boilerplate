@@ -1,7 +1,7 @@
 import 'phaser'
 import '~/styles/main.sass'
-import gameConfig from '~/config'
 import Game from '~/Game'
+import gameConfig, { pauseBtn, restartBtn, debugBtn, debugGrid } from '~/config'
 
 window.addEventListener('load', () => {
   window.game = new Game(gameConfig)
@@ -10,26 +10,34 @@ window.addEventListener('load', () => {
 //   game.resize(window.innerWidth, window.innerHeight)
 // })
 
-const pauseBtn = document.querySelector('#pause-btn')
-const debugBtn = document.querySelector('#debug-btn')
-const debugGrid: HTMLElement | null = document.querySelector('#game__grid')
-
 if (pauseBtn) {
   pauseBtn.addEventListener('click', () => {
     const scene = window.game.scene.getScene('GameScene')
     const method = scene.sys.isPaused() ? 'resume' : 'pause'
+    const datasetKey = scene.sys.isPaused() ? 'pause' : 'resume'
+
+    if (pauseBtn) {
+      pauseBtn.textContent = pauseBtn.dataset[datasetKey] || null
+    }
 
     scene.sys[method]()
+  })
+}
+if (restartBtn) {
+  restartBtn.addEventListener('click', () => {
+    window.game.scene.start('GameScene')
   })
 }
 if (debugBtn) {
   debugBtn.addEventListener('click', () => {
     if (debugGrid) {
-      const hidden = debugGrid.dataset.hide === '1'
+      const isDebug = [undefined, '0'].includes(debugGrid.dataset.hide)
 
       // '0' or '1'
-      debugGrid.dataset.hide = (+!hidden).toString()
-      debugGrid.classList.toggle('game__grid--hidden', hidden)
+      debugGrid.dataset.hide = (+isDebug).toString()
+      debugGrid.classList.toggle('game__grid--hidden', !isDebug)
+
+      window.game.events.emit('app_toggle_debug', isDebug)
     }
   })
 }

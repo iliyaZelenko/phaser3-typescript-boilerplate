@@ -1,37 +1,45 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    >
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+  >
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-  <!--My index.html-->
+<!--My index.html-->
 
-  <div id="game-wrap">
-    <div id="game">
-      <!--canvas will be inside-->
-      <div id="game__canvas-wrap"></div>
+<div id="game-wrap">
+  <div id="game">
+    <!--canvas will be inside-->
+    <div id="game__canvas-wrap"></div>
 
-      <!--debug grid for ceils-->
-      <div id="game__grid" class="game__grid--hidden"></div>
+    <!--debug grid for ceils-->
+    <div id="game__grid" class="game__grid--hidden"></div>
 
-      <!--overlay with buttons-->
-      <div id="game__overlay">
-        <button id="pause-btn">
-          Pause
-        </button>
-        <button id="debug-btn">
-          Debug
-        </button>
-      </div>
+    <!--overlay with buttons-->
+    <div id="game__overlay">
+      <button
+        id="pause-btn"
+        class="btn"
+        data-pause="Pause"
+        data-resume="Resume"
+      >
+        Pause
+      </button>
+      <button id="restart-btn" class="btn">
+        Restart
+      </button>
+      <button id="debug-btn" class="btn">
+        Debug
+      </button>
     </div>
   </div>
+</div>
 
-  <!-- Скрипты сами инджектятся сюда -->
+<!-- Скрипты сами инджектятся сюда -->
 </body>
 </html>

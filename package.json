@@ -33,6 +33,7 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
-    "phaser": "^3.10.1"
+    "phaser": "^3.10.1",
+    "phaser3-swipe-plugin": "^1.0.0"
   }
 }

@@ -3,7 +3,6 @@ import GameScene from '~/scenes/GameScene'
 import AbstractBonus from '~/objects/bonus/AbstractBonus'
 
 export default class Snake {
-  // TODO getters, types
   public snakeHeadX: number
   public snakeHeadY: number
   public bodyPartsSprites: Phaser.GameObjects.Sprite[] = []
@@ -23,10 +22,10 @@ export default class Snake {
   private lastMoveDir: string = this.currentDir
   private scene: GameScene
 
-  constructor (scene) {
+  constructor (scene, x, y) {
     this.scene = scene
-    this.snakeHeadX = this.scene.snakeStartX
-    this.snakeHeadY = this.scene.snakeStartY
+    this.snakeHeadX = x
+    this.snakeHeadY = y
     this.size = snakeSize // this.scene.ceil * this.snakeCeilsSize
     this.bodyPartsPositions = this.getInitialSnakeBody()
 
@@ -211,7 +210,6 @@ export default class Snake {
   }
 
   private updateBodyPartsSpritesFrames (specificPosIndex: number | null = null) {
-    // TODO вынести в сам класс (как readonly)
     const HEAD = {
       up: 3,
       right: 4,

@@ -6,11 +6,9 @@ import Timer from '~/overlay/Timer'
 import LocalStorage from '~/storage/LocalStorage'
 import AbstractStorage from '~/storage/AbstractStorage'
 
-// TODO генерация препядствий
 export default class GameScene extends Phaser.Scene {
-  // TODO on resize менять
-  public readonly snakeStartX = this.getCeilXPos(ceilsXCount / 2)
-  public readonly snakeStartY = this.getCeilYPos(ceilsYCount / 2)
+  public readonly snakeStartX = this.getCeilXPos(Math.floor(ceilsXCount / 2))
+  public readonly snakeStartY = this.getCeilYPos(Math.floor(ceilsYCount / 2))
 
   public snake!: Snake
   public overlay!: Overlay
@@ -31,14 +29,15 @@ export default class GameScene extends Phaser.Scene {
     })
   }
 
-  // TODO походу из init перенести в create (init каждый раз при появлении сцены) Хотя create тоже вроде 2 раза
   public init (): void {
-    this.snake = new Snake(this)
+    this.snake = new Snake(this, this.snakeStartX, this.snakeStartY)
     this.overlay = new Overlay(this)
     this.timer = new Timer(() => {
       this.overlay.updateTimer()
     })
     this.storage = new LocalStorage()
+
+    window.game.showOverlay()
 
     // input
     this.cursors = this.input.keyboard.createCursorKeys()
@@ -55,8 +54,7 @@ export default class GameScene extends Phaser.Scene {
 
   // time - elapsed time in milliseconds (pause does not affect!)
   public update (time): void {
-    // TODO с уровнем сложности (наверное зависит от таймера) значения меняются
-    const snakeMoveIterationsRange = 10
+    const snakeMoveIterationsRange = 10 // - Math.floor(this.timer.getSeconds() / 4)
     const bonusIterationsRange = 50
 
     this.worldIterations += 1
@@ -120,7 +118,7 @@ export default class GameScene extends Phaser.Scene {
 
   /**
    * Get ceil x coordinate by index
-   * @param index (from 1, not 0)
+   * @param index from 1
    */
   public getCeilXPos (index: number): number {
     return index * ceil - (ceil / 2)
@@ -128,7 +126,7 @@ export default class GameScene extends Phaser.Scene {
 
   /**
    * Get ceil y coordinate by index
-   * @param index (from 1, not 0)
+   * @param index from 1
    */
   public getCeilYPos (index: number): number {
     return index * ceil - (ceil / 2)
@@ -187,10 +185,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   private getRandomInt (min: number, max: number): number {
-    // let rand = min - 0.5 + Math.random() * (max - min + 1)
-    //
-    // rand = Math.round(rand)
-    //
+    // let rand = Math.round(min - 0.5 + Math.random() * (max - min + 1))
     // return rand
 
     return Phaser.Math.RND.between(min, max)
@@ -208,8 +203,11 @@ export default class GameScene extends Phaser.Scene {
     this.events.on('resume', () => {
       this.timer.resume()
     })
-    this.events.on('swipe', (dir) => {
+    window.game.events.on('swipe', (dir) => {
       this.snake.setDir(dir)
+    })
+    window.game.events.on('app_toggle_debug', (isDebug: boolean) => {
+      this.fpsText.setVisible(isDebug)
     })
   }
 

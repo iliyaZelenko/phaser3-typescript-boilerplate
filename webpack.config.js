@@ -6,7 +6,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-// TODO оно берет из dist, но лучше из src (как по умолчанию, если dev режим)
 const phaserPath = join(__dirname, '/node_modules/phaser/dist/phaser.js')
 const srcPath = join(__dirname, 'src')
 const distPath = resolve(__dirname, 'dist')
@@ -19,8 +18,7 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.ts$/, loader: 'ts-loader', exclude: '/node_modules/' },
-      // { test: /phaser\.js$/, loader: 'expose-loader?Phaser' },
+      { test: /\.ts$/, loader: 'ts-loader', exclude: /node_modules/ },
       {
         test: /\.sass$/,
         use: [

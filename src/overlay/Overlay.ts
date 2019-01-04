@@ -1,10 +1,8 @@
 import GameScene from '~/scenes/GameScene'
 import { dephs, gameWidth } from '~/config'
 
-// TODO Время
 export default class Overlay {
   private readonly scene: GameScene
-  // how many lines with text
   private applesCounterText!: Phaser.GameObjects.BitmapText
   private snakeLengthText!: Phaser.GameObjects.BitmapText
   private timerText!: Phaser.GameObjects.BitmapText
