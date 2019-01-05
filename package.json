@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "webpack-dev-server --hot --mode=development",
     "start": "webpack-dev-server --mode=development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "gp-deploy": "./gp-deploy.sh"
   },
   "license": "MIT",
   "devDependencies": {

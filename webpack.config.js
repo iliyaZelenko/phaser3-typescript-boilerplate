@@ -38,7 +38,7 @@ module.exports = {
     overlay: true
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin([distPath]),
     new HtmlWebpackPlugin({
       title: 'My page',
       template: join(srcPath, 'index.html')

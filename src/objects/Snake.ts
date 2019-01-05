@@ -17,6 +17,7 @@ export default class Snake {
     DOWN: 'down',
     LEFT: 'left'
   }
+  private initialLength: number = 20
   private dead: boolean = false
   private currentDir: string = this.DIRECTIONS.UP
   private lastMoveDir: string = this.currentDir
@@ -286,7 +287,7 @@ export default class Snake {
 
   private getInitialSnakeBody () {
     const body: any[] = []
-    const partsCount = 20
+    const partsCount = this.initialLength
 
     // важно чтобы начиналось с 0
     for (let i = 0; i < partsCount; i++) {

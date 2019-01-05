@@ -1,5 +1,5 @@
 <p align="center">
-  <img width=100% src="https://github.com/iliyaZelenko/phaser3-typescript/blob/master/assets/github/phaser3-typescript.png">
+  <img width=100% src="https://imgur.com/aPiBT1G">
   Phaser 3 Boilerplate Starter Project written in TypeScript.
 </p>
 
