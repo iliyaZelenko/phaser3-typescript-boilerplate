@@ -24,6 +24,6 @@
 // }
 //
 // // when the page is loaded, create our game instance
-// window.onload = () => {
+// window.addEventListener('load', () => {
 //   var game = new Game(config);
-// };
+// });
