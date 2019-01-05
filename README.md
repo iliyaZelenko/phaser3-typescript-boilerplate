@@ -1,6 +1,6 @@
 <p align="center">
-  <img width=100% src="https://imgur.com/aPiBT1G">
-  Phaser 3 Boilerplate Starter Project written in TypeScript.
+  <img width=100% src="https://i.imgur.com/aPiBT1G.png">
+  Phaser 3 Boilerplate Starter Project written in TypeScript (Snake game example).
 </p>
 
 # Phaser 3 and TypeScript
