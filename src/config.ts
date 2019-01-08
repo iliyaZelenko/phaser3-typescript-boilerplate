@@ -5,14 +5,16 @@ import GameScene from '~/scenes/GameScene'
 import SwipePlugin from 'phaser3-swipe-plugin'
 
 export const gameContainer: HTMLElement = document.querySelector('#game') || document.body
-const gameContainerW = gameContainer.getBoundingClientRect().width // window.innerWidth
-const gameContainerH = gameContainer.getBoundingClientRect().height // window.innerHeight
+const gameContainerBCR = gameContainer.getBoundingClientRect()
+const gameContainerW = gameContainerBCR.width // window.innerWidth
+const gameContainerH = gameContainerBCR.height // window.innerHeight
 
 export const canvasContainer: HTMLElement | null = document.querySelector('#game__canvas-wrap')
-export const ceil = 24
+// this value needs to be changed in file styles/config.sass
+export const ceil = 32
 export const snakeSize = ceil
-export const ceilsXCount = getCeilsCountBy(gameContainerW) // - 1 (if scroll)
-export const ceilsYCount = getCeilsCountBy(gameContainerH)
+export const ceilsXCount = getCeilsCountByPixelsCount(gameContainerW) // - 1 (if scroll)
+export const ceilsYCount = getCeilsCountByPixelsCount(gameContainerH)
 export const gameWidth = ceilsXCount * ceil
 export const gameHeight = ceilsYCount * ceil
 export const dephs = {
@@ -31,7 +33,6 @@ export const debugGrid: HTMLElement | null = document.querySelector('#game__grid
 const gameConfig: GameConfig = {
   width: gameWidth,
   height: gameHeight,
-  // zoom: 3,
   type: Phaser.AUTO,
   parent: canvasContainer || undefined,
   scene: [BootScene, MainMenuScene, GameScene],
@@ -51,10 +52,7 @@ const gameConfig: GameConfig = {
       {
         key: 'SwipePlugin',
         plugin: SwipePlugin,
-        start: true,
-        data: {
-          offset: 123
-        }
+        start: true
       }
     ]
   }
@@ -62,14 +60,6 @@ const gameConfig: GameConfig = {
 
 export default gameConfig
 
-
-
-function getCeilsCountBy (pixelsCount) {
-  const count = Math.floor(pixelsCount / ceil)
-
-  // if (count > 30) {
-  //   return Math.floor(count * .8)
-  // }
-
-  return count
+function getCeilsCountByPixelsCount (pixelsCount) {
+  return Math.floor(pixelsCount / ceil)
 }

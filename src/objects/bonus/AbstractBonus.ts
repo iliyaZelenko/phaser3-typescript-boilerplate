@@ -1,9 +1,9 @@
 import GameScene from '~/scenes/gameScene'
 
-export default class AbstractBonus {
+export default abstract class AbstractBonus {
   protected readonly scene: GameScene
 
-  constructor (scene) {
+  protected constructor (scene) {
     this.scene = scene
   }
 

@@ -88,6 +88,7 @@ export default class Overlay {
       initApplesCount.toString(),
       this.textSize
     )
+    .setDepth(dephs.text)
     this.scene.add.sprite(
       this.innerStartX,
       this.innerStartY + this.getHalfSpriteSize(),
@@ -110,6 +111,7 @@ export default class Overlay {
       initSnakeLength.toString(),
       this.textSize
     )
+    .setDepth(dephs.text)
     this.scene.add.sprite(
       this.innerStartX,
       textStartY + this.getHalfSpriteSize(),
@@ -131,6 +133,7 @@ export default class Overlay {
       initTimer,
       this.textSize
     )
+    .setDepth(dephs.text)
     this.scene.add.sprite(
       this.innerStartX,
       textStartY + this.getHalfSpriteSize(),

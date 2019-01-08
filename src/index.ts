@@ -3,9 +3,11 @@ import '~/styles/main.sass'
 import Game from '~/Game'
 import gameConfig, { pauseBtn, restartBtn, debugBtn, debugGrid } from '~/config'
 
-window.addEventListener('load', () => {
+const onReady = () => {
   window.game = new Game(gameConfig)
-})
+}
+
+window.addEventListener('load', onReady)
 // window.addEventListener('resize', () => {
 //   game.resize(window.innerWidth, window.innerHeight)
 // })

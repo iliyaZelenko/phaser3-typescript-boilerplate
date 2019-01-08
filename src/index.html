@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title><%= htmlWebpackPlugin.options.title %></title>
+  <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">-->
 
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
   <meta
     name="viewport"
     content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
   />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="msapplication-tap-highlight" content="no" />
+
+  <title><%= htmlWebpackPlugin.options.title %></title>
 
   <link rel="icon" href="assets/icon/favicon.ico" />
 </head>
@@ -27,23 +29,28 @@
     <div id="game__overlay">
       <button
         id="pause-btn"
-        class="btn"
+        class="btn btn--primary"
         data-pause="Pause"
         data-resume="Resume"
       >
         Pause
       </button>
-      <button id="restart-btn" class="btn">
+      <button
+        id="restart-btn"
+        class="btn btn--success"
+      >
         Restart
       </button>
-      <button id="debug-btn" class="btn">
+      <button
+        id="debug-btn"
+        class="btn btn--danger"
+      >
         Debug
       </button>
     </div>
   </div>
 </div>
 
-<script type="text/javascript" src="cordova.js"></script>
 <!-- Скрипты сами инджектятся сюда -->
 </body>
 </html>

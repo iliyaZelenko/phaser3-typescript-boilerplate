@@ -1,7 +1,5 @@
-$gridSize: 24px
-$gridColor: #FF0000
-$gridOpacity: 0.5
-$gridSizeMinus: ($gridSize - 1px)
+@import 'config'
+@import 'buttons'
 
 *
   box-sizing: border-box
@@ -53,13 +51,6 @@ body
 
   &.game__overlay--hidden
     display: none
-
-  .btn
-    opacity: .7
-
-  .btn:hover
-    opacity: 1
-
 
 // not necessary
 @media (min-width: 1000px)

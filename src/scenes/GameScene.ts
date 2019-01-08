@@ -5,6 +5,12 @@ import Overlay from '~/overlay/Overlay'
 import Timer from '~/overlay/Timer'
 import LocalStorage from '~/storage/LocalStorage'
 import AbstractStorage from '~/storage/AbstractStorage'
+import SoundManager from '~/managers/SoundManager'
+import PlumBonus from '~/objects/bonus/PlumBonus'
+import PearBonus from '~/objects/bonus/PearBonus'
+import GrapesBonus from '~/objects/bonus/GrapesBonus'
+import PeachBonus from '~/objects/bonus/PeachBonus'
+import ApricotBonus from '~/objects/bonus/ApricotBonus'
 
 export default class GameScene extends Phaser.Scene {
   public readonly snakeStartX = this.getCeilXPos(Math.floor(ceilsXCount / 2))
@@ -14,6 +20,7 @@ export default class GameScene extends Phaser.Scene {
   public overlay!: Overlay
   public timer!: Timer
   public storage!: AbstractStorage
+  public soundManager!: SoundManager
 
   private worldIterations = 0
   // TODO хранить в массиве сами бонусы, потом проходится по ним для получения позиций
@@ -36,6 +43,7 @@ export default class GameScene extends Phaser.Scene {
       this.overlay.updateTimer()
     })
     this.storage = new LocalStorage()
+    this.soundManager = new SoundManager()
 
     window.game.showOverlay()
 
@@ -50,11 +58,20 @@ export default class GameScene extends Phaser.Scene {
     const sprite = this.add.tileSprite(0, 0, gameWidth * 2, gameHeight * 2, 'background')
 
     sprite.setDepth(dephs.background)
+
+    this.soundManager.add([
+      this.sound.add('eat1'),
+      this.sound.add('eat2'),
+      this.sound.add('eat3'),
+      this.sound.add('eat4'),
+      this.sound.add('eat5'),
+      this.sound.add('dead')
+    ])
   }
 
   // time - elapsed time in milliseconds (pause does not affect!)
   public update (time): void {
-    const snakeMoveIterationsRange = 10 // - Math.floor(this.timer.getSeconds() / 4)
+    const snakeMoveIterationsRange = 15 // - Math.floor(this.timer.getSeconds() / 4)
     const bonusIterationsRange = 50
 
     this.worldIterations += 1
@@ -162,19 +179,24 @@ export default class GameScene extends Phaser.Scene {
     )
 
     if (bonusPos) {
-      this.bonusesPositions = this.bonusesPositions.filter(i => i !== bonusPos)
       const bonus = bonusPos.bonus
+      const randomSoundKey = 1 + Math.round(Math.random() * (5 - 1))
+
+      this.bonusesPositions = this.bonusesPositions.filter(i => i !== bonusPos)
 
       bonus.onCollisionWithSnake()
       this.snake.onTakenBonus(bonus)
+      this.soundManager.play('eat' + randomSoundKey)
     }
   }
 
   // TODO bonus does not appear on the snake
   private addBonus () {
     const ceilPos = this.getRandomCeil()
+    const bonuses = [AppleBonus, PlumBonus, PearBonus, GrapesBonus, PeachBonus, ApricotBonus]
+    const randomBonus = bonuses[Math.round(Math.random() * bonuses.length - 1)]
 
-    const apple = new AppleBonus(this, ceilPos)
+    const apple = new randomBonus(this, ceilPos)
 
     this.bonusesPositions.push({ ...ceilPos, bonus: apple })
   }
@@ -219,6 +241,7 @@ export default class GameScene extends Phaser.Scene {
       this.storage.set('max-score', score)
     }
 
+    this.soundManager.play('dead')
     this.scene.start('MainMenuScene')
   }
 

@@ -2,7 +2,7 @@ import { ceil, dephs } from '~/config'
 import AbstractBonus from '~/objects/bonus/AbstractBonus'
 
 // extends Phaser.GameObjects.Graphics
-export default class AppleBonus extends AbstractBonus {
+export default class ApricotBonus extends AbstractBonus {
   // private readonly scene: GameScene
   private readonly x: number
   private readonly y: number
@@ -14,8 +14,7 @@ export default class AppleBonus extends AbstractBonus {
     this.x = x
     this.y = y
 
-    // this.sprite = this.scene.add.sprite(this.x, this.y, 'snake', 15)
-    this.sprite = this.scene.add.sprite(this.x, this.y, 'fruits', 'sprite40')
+    this.sprite = this.scene.add.sprite(this.x, this.y, 'fruits', 'sprite43')
 
     // setSize это другое
     this.sprite.setDisplaySize(ceil, ceil)
