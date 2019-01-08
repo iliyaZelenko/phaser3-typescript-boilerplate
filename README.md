@@ -2,7 +2,8 @@
   <a href="https://iliyazelenko.github.io/phaser3-typescript-boilerplate/">
     <img width=100% src="https://i.imgur.com/aPiBT1G.png">
   </a>
-  Phaser 3 Boilerplate Starter Project written in TypeScript (Snake game example).
+  Phaser 3 Boilerplate Starter Project written in TypeScript (
+  <a href="https://iliyazelenko.github.io/phaser3-typescript-boilerplate/">Snake game example</a>).
 </p>
 
 # Phaser 3 and TypeScript
