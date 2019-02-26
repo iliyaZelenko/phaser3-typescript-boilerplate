@@ -8,6 +8,8 @@
 
 # Phaser 3 and TypeScript
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/iliyaZelenko/phaser3-typescript-boilerplate.svg)](https://greenkeeper.io/)
+
 [Phaser](https://github.com/photonstorm/phaser) is a wonderful, fast and
 free open source HTML5 game framework.
 Here you will find everything you need to develop games with Phaser 3
